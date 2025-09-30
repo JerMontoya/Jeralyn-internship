@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "slick-carousel/slick/slick.css";
@@ -9,8 +9,8 @@ import "./HotCollections.css";
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(false);
-  const sliderRef = useRef(null);
-  const [sliderReady, setSliderReady] = useState(false);
+  const fullArray = [1, 2, 3, 4];
+  const [visibleItems, setVisibleItems] = useState(fullArray);
 
   async function getCollections() {
     setLoading(true);
@@ -28,14 +28,18 @@ const HotCollections = () => {
   }, []);
 
   useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.slickGoTo(0);
-    }
-  }, []);
+    const updateVisibleItems = () => {
+      const width = window.innerWidth;
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setSliderReady(true), 50);
-    return () => clearTimeout(timeout);
+      if (width >= 1200) setVisibleItems(fullArray.slice(0, 4));
+      else if (width >= 768) setVisibleItems(fullArray.slice(0, 3));
+      else if (width >= 480) setVisibleItems(fullArray.slice(0, 2));
+      else setVisibleItems(fullArray.slice(0, 1));
+    };
+    updateVisibleItems();
+    window.addEventListener("resize", updateVisibleItems);
+
+    return() => window.removeEventListener("resize", updateVisibleItems);
   }, []);
 
   var settings = {
@@ -71,15 +75,16 @@ const HotCollections = () => {
       {loading ? (
         <div className="skeleton__loading">
           <div className="skeleton-title"></div>
+          <div className="small-border bg-color-2"></div>
           <div className="skeleton-tiles">
-            {new Array(4).fill(0).map((_, index) => (
-              <div className="skeleton__tile" key={index}>
+            {visibleItems.map((item, i) => (
+              <div className="skeleton__tile" key={i}>
                 <div className="skeleton__tile-img"></div>
                 <div className="skeleton__tile-author"></div>
                 <div className="skeleton__tile-name"></div>
                 <div className="skeleton__tile-code"></div>
               </div>
-            ))}
+             ))} 
           </div>
         </div>
       ) : (
@@ -91,13 +96,13 @@ const HotCollections = () => {
             </div>
           </div>
           <div className="carousel-wrapper">
-            {sliderReady && <Slider ref={sliderRef} {...settings}>
+            {<Slider {...settings}>
               {collections.map((collection, index) => (
                 <div className="px-2" key={index}>
                   <div style={{ width: "100%" }}>
                     <div className="nft_coll">
                       <div className="nft_wrap">
-                        <Link to="/item-details">
+                        <Link to={`/item-details/${collection.nftId}`}>
                           <img
                             src={collection.nftImage}
                             className="lazy img-fluid"

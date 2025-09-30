@@ -25,11 +25,9 @@
 }
 
 .skeleton-tiles {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  display: flex;
   gap: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 124px;
   padding: 0 1rem;
 }
 
@@ -43,7 +41,7 @@
   border-radius: 12px;
   padding: 1rem;
   box-sizing: border-box;
-  background-color: #1a1a1a;
+  background-color: #555;
 }
 
 .skeleton__tile-img {
@@ -87,24 +85,5 @@
   }
   100% {
     background-position: 200% 0;
-  }
-}
-
-@media (max-width: 1200px) {
-  .skeleton-tiles {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .skeleton-tiles {
-    max-width: 360px;
-    grid-template-columns: repeat(4, minmax(220px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .skeleton-tiles {
-    grid-template-columns: 1fr;
   }
 }

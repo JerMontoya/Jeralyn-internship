@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import axios from "axios";
-import "./TopSellers.css"
+import "./TopSellers.css";
 
 const TopSellers = () => {
   const [topSellers, setTopSellers] = useState([]);
@@ -13,11 +13,8 @@ const TopSellers = () => {
     const { data } = await axios.get(
       `https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers`
     );
-    setTimeout(() => {
-      setTopSellers(data);
-      setLoading(false);
-
-  }, 2000)
+    setTopSellers(data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -32,7 +29,18 @@ const TopSellers = () => {
           <div className="small-border bg-color-2"></div>
           <div className="col-md-12">
             <div className="author_list">
-              
+              {Array.from({ length: 12 }).map((_, index) => (
+                <div className="skeleton__items" key={index}>
+                  <div className="skeleton__left">
+                    <div className="skeleton__img"></div>
+                    <i className="fa fa-check"></i>
+                  </div>
+                  <div className="skeleton__right">
+                    <div className="skeleton__name"></div>
+                    <div className="skeleton__price"></div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

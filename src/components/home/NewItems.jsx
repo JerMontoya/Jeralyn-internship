@@ -53,7 +53,7 @@ const NewItems = () => {
 
   return (
     <section id="section-items" className="no-bottom">
-      <LoadingState loading={loading}>
+      <LoadingState loading={loading} showTitle={true}>
         <div className="container">
           <div className="col-lg-12">
             <div className="text-center">

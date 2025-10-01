@@ -1,8 +1,17 @@
 .skeleton__loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.skeleton-title {
+  height: 32px;
+  width: 30%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #777 25%, #888 50%, #777 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }
 
 .skeleton-tiles-grid {
@@ -21,11 +30,10 @@
   border-radius: 12px;
   padding: 1rem;
   background-color: #777;
-  min-height: 250px; 
+  min-height: 250px;
   min-width: 250px;
   box-sizing: border-box;
 }
-
 
 .skeleton__tile-img {
   width: 100%;
@@ -35,7 +43,6 @@
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
-
 
 .skeleton__tile-author {
   width: 50px;
@@ -71,4 +78,3 @@
     background-position: 200% 0;
   }
 }
-

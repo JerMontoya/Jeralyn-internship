@@ -52,7 +52,7 @@ const HotCollections = () => {
 
   return (
     <section id="section-collections" className="no-bottom">
-      <LoadingState loading={loading} fullArray={collections}>
+      <LoadingState loading={loading} showTitle={true}>
         <div className="container">
           <div className="col-lg-12">
             <div className="text-center">

@@ -60,7 +60,7 @@ const ExploreItems = () => {
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      <LoadingState loading={loading} visibleItems={new Array(8).fill(null)}>
+      <LoadingState loading={loading} showTitle={false}>
         {sortedAuthors.slice(0, visibleCount).map((author, index) => (
           <div
             key={index}

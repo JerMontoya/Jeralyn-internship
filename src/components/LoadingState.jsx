@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./LoadingState.css";
 
-const LoadingState = ({ loading, children }) => {
+const LoadingState = ({ loading, children, showTitle = false }) => {
   const fullArray = [1, 2, 3, 4];
   const [visibleItems, setVisibleItems] = useState([fullArray]);
 
@@ -22,8 +22,11 @@ const LoadingState = ({ loading, children }) => {
   if (loading) {
     return (
       <div className="skeleton__loading">
+        {showTitle && 
+        <>
         <div className="skeleton-title"></div>
         <div className="small-border bg-color-2"></div>
+        </>}
         <div className="skeleton-tiles-grid">
           {visibleItems.map((_, i) => (
             <div className="skeleton__tile" key={i}>

@@ -4,16 +4,13 @@ import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import "./HotCollections.css";
+import LoadingState from "../LoadingState";
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const fullArray = [1, 2, 3, 4];
-  const [visibleItems, setVisibleItems] = useState(fullArray);
+  const [loading, setLoading] = useState(true);
 
   async function getCollections() {
-    setLoading(true);
     const { data } = await axios.get(
       `https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections`
     );
@@ -23,21 +20,6 @@ const HotCollections = () => {
 
   useEffect(() => {
     getCollections();
-  }, []);
-
-  useEffect(() => {
-    const updateVisibleItems = () => {
-      const width = window.innerWidth;
-
-      if (width >= 1200) setVisibleItems(fullArray.slice(0, 4));
-      else if (width >= 768) setVisibleItems(fullArray.slice(0, 3));
-      else if (width >= 480) setVisibleItems(fullArray.slice(0, 2));
-      else setVisibleItems(fullArray.slice(0, 1));
-    };
-    updateVisibleItems();
-    window.addEventListener("resize", updateVisibleItems);
-
-    return () => window.removeEventListener("resize", updateVisibleItems);
   }, []);
 
   var settings = {
@@ -70,22 +52,7 @@ const HotCollections = () => {
 
   return (
     <section id="section-collections" className="no-bottom">
-      {loading ? (
-        <div className="skeleton__loading">
-          <div className="skeleton-title"></div>
-          <div className="small-border bg-color-2"></div>
-          <div className="skeleton-tiles">
-            {visibleItems.map((item, i) => (
-              <div className="skeleton__tile" key={i}>
-                <div className="skeleton__tile-img"></div>
-                <div className="skeleton__tile-author"></div>
-                <div className="skeleton__tile-name"></div>
-                <div className="skeleton__tile-code"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : (
+      <LoadingState loading={loading} fullArray={collections}>
         <div className="container">
           <div className="col-lg-12">
             <div className="text-center">
@@ -93,7 +60,7 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div className="carousel-wrapper">
+          <div className="">
             {
               <Slider {...settings}>
                 {collections.map((collection, index) => (
@@ -148,7 +115,7 @@ const HotCollections = () => {
           opacity: 1 !important; 
         }`}</style>
         </div>
-      )}
+      </LoadingState>
     </section>
   );
 };

@@ -17,10 +17,8 @@ const HotCollections = () => {
     const { data } = await axios.get(
       `https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections`
     );
-    setTimeout(() => {
-      setCollections(data);
-      setLoading(false);
-    }, 2000);
+    setCollections(data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -39,7 +37,7 @@ const HotCollections = () => {
     updateVisibleItems();
     window.addEventListener("resize", updateVisibleItems);
 
-    return() => window.removeEventListener("resize", updateVisibleItems);
+    return () => window.removeEventListener("resize", updateVisibleItems);
   }, []);
 
   var settings = {
@@ -84,7 +82,7 @@ const HotCollections = () => {
                 <div className="skeleton__tile-name"></div>
                 <div className="skeleton__tile-code"></div>
               </div>
-             ))} 
+            ))}
           </div>
         </div>
       ) : (
@@ -96,41 +94,43 @@ const HotCollections = () => {
             </div>
           </div>
           <div className="carousel-wrapper">
-            {<Slider {...settings}>
-              {collections.map((collection, index) => (
-                <div className="px-2" key={index}>
-                  <div style={{ width: "100%" }}>
-                    <div className="nft_coll">
-                      <div className="nft_wrap">
-                        <Link to={`/item-details/${collection.nftId}`}>
-                          <img
-                            src={collection.nftImage}
-                            className="lazy img-fluid"
-                            alt=""
-                          />
-                        </Link>
-                      </div>
-                      <div className="nft_coll_pp">
-                        <Link to="/author">
-                          <img
-                            className="lazy pp-coll"
-                            src={collection.authorImage}
-                            alt=""
-                          />
-                        </Link>
-                        <i className="fa fa-check"></i>
-                      </div>
-                      <div className="nft_coll_info">
-                        <Link to="/explore">
-                          <h4>{collection.title}</h4>
-                        </Link>
-                        <span>ERC-{collection.code}</span>
+            {
+              <Slider {...settings}>
+                {collections.map((collection, index) => (
+                  <div className="px-2" key={index}>
+                    <div style={{ width: "100%" }}>
+                      <div className="nft_coll">
+                        <div className="nft_wrap">
+                          <Link to={`/item-details/${collection.nftId}`}>
+                            <img
+                              src={collection.nftImage}
+                              className="lazy img-fluid"
+                              alt=""
+                            />
+                          </Link>
+                        </div>
+                        <div className="nft_coll_pp">
+                          <Link to="/author">
+                            <img
+                              className="lazy pp-coll"
+                              src={collection.authorImage}
+                              alt=""
+                            />
+                          </Link>
+                          <i className="fa fa-check"></i>
+                        </div>
+                        <div className="nft_coll_info">
+                          <Link to="/explore">
+                            <h4>{collection.title}</h4>
+                          </Link>
+                          <span>ERC-{collection.code}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </Slider>}
+                ))}
+              </Slider>
+            }
           </div>
           <style>{`.slick-prev:before,
           .slick-next:before {

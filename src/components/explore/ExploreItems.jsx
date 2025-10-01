@@ -5,6 +5,8 @@ import Countdown from "../Countdown";
 
 const ExploreItems = () => {
   const [authors, setAuthors] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(8);
+  const [sortOption, setSortOption] = useState("");
 
   async function getAuthors() {
     const { data } = await axios.get(
@@ -17,17 +19,41 @@ const ExploreItems = () => {
     getAuthors();
   }, []);
 
+  const getSortedAuthors = () => {
+    let sorted = [...authors];
+    if (sortOption === "price_low_to_high") {
+      sorted.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "price_high_to_low") {
+      sorted.sort((a, b) => b.price - a.price);
+    } else if (sortOption === "likes_high_to_low") {
+      sorted.sort((a, b) => b.likes - a.likes);
+    }
+    return sorted;
+  };
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 4);
+  };
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+    setVisibleCount(8);
+  };
+
+  const sortedAuthors = getSortedAuthors();
+
+
   return (
     <>
       <div>
-        <select id="filter-items" defaultValue="">
+        <select id="filter-items" defaultValue="" value={sortOption} onChange={handleSortChange}>
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {authors.map((author, index) => (
+      {sortedAuthors.slice(0, visibleCount).map((author, index) => (
         <div
           key={index}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
@@ -45,7 +71,6 @@ const ExploreItems = () => {
               </Link>
             </div>
             <Countdown expiryDate={author.expiryDate} />
-
             <div className="nft__item_wrap">
               <div className="nft__item_extra">
                 <div className="nft__item_buttons">
@@ -85,11 +110,14 @@ const ExploreItems = () => {
           </div>
         </div>
       ))}
-      <div className="col-md-12 text-center">
-        <Link to="" id="loadmore" className="btn-main lead">
+      {visibleCount < sortedAuthors.length && (
+
+        <div className="col-md-12 text-center">
+        <button onClick={handleLoadMore} className="btn-main lead">
           Load more
-        </Link>
+        </button>
       </div>
+      )}
     </>
   );
 };

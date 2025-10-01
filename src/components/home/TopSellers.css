@@ -1,0 +1,17 @@
+.skeleton__loading {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.skeleton__title {
+  display: flex;
+  height: 40px;
+  width: 25%;
+  margin: 0 auto;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #aaa 25%, #bbb 50%, #aaa 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

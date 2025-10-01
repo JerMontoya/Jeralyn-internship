@@ -5,7 +5,7 @@
     padding: 0 1rem;
     box-sizing: border-box;
 }
-
+ 
 .skeleton__loading {
   display: flex;
   flex-direction: column;

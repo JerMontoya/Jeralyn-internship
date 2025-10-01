@@ -22,11 +22,12 @@ const LoadingState = ({ loading, children, showTitle = false }) => {
   if (loading) {
     return (
       <div className="skeleton__loading">
-        {showTitle && 
-        <>
-        <div className="skeleton-title"></div>
-        <div className="small-border bg-color-2"></div>
-        </>}
+        {showTitle && (
+          <>
+            <div className="skeleton-title"></div>
+            <div className="small-border bg-color-2"></div>
+          </>
+        )}
         <div className="skeleton-tiles-grid">
           {visibleItems.map((_, i) => (
             <div className="skeleton__tile" key={i}>

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Countdown from "../Countdown";
 
 const ExploreItems = () => {
   const [authors, setAuthors] = useState([]);
-  
-    async function getAuthors() {
-      const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/explore`);
-      setAuthors(data);
-    }
-  
-    useEffect(() => {
-      getAuthors();
-    }, []);
+
+  async function getAuthors() {
+    const { data } = await axios.get(
+      `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore`
+    );
+    setAuthors(data);
+  }
+
+  useEffect(() => {
+    getAuthors();
+  }, []);
 
   return (
     <>
@@ -41,7 +44,7 @@ const ExploreItems = () => {
                 <i className="fa fa-check"></i>
               </Link>
             </div>
-            <div className="de_countdown">5h 30m 32s</div>
+            <Countdown expiryDate={author.expiryDate} />
 
             <div className="nft__item_wrap">
               <div className="nft__item_extra">
@@ -62,7 +65,11 @@ const ExploreItems = () => {
                 </div>
               </div>
               <Link to={`/item-details/${author.nftId}`}>
-                <img src={author.nftImage} className="lazy nft__item_preview" alt="" />
+                <img
+                  src={author.nftImage}
+                  className="lazy nft__item_preview"
+                  alt=""
+                />
               </Link>
             </div>
             <div className="nft__item_info">

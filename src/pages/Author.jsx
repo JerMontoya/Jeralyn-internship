@@ -6,22 +6,25 @@ import axios from "axios";
 const Author = () => {
   const { Id } = useParams();
   const [authorInfo, setAuthorInfo] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     async function getAuthorInfo() {
       const { data } = await axios.get(
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${Id}`
       );
-      console.log("API response:", data);
-      setAuthorInfo(data.info ? data.info[0] : data[0] || data);
+      setAuthorInfo(data);
     }
-    if (Id) {
-      console.log("Fetching author with id:", Id);
-      getAuthorInfo();
-    } else {
-      console.log("No id found in params");
-    }
+    getAuthorInfo();
   }, [Id]);
+
+  const handleFollow = () => {
+    setIsFollowing((prev) => !prev);
+    setAuthorInfo((prev) => ({
+      ...prev,
+      followers: prev.followers + (isFollowing ? -1 : 1),
+    }));
+  };
 
   return (
     <div id="wrapper">
@@ -70,9 +73,9 @@ const Author = () => {
                           <div className="profile_follower">
                             {authorInfo.followers} followers
                           </div>
-                          <Link to="#" className="btn-main">
-                            Follow
-                          </Link>
+                          <button onClick={handleFollow} className="btn-main">
+                            {isFollowing ? "Unfollow" : "Follow"}
+                          </button>
                         </div>
                       </div>
                     </div>

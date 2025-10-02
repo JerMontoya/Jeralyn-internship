@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Countdown from "../Countdown";
 import LoadingState from "../LoadingState";
@@ -7,43 +7,33 @@ import LoadingState from "../LoadingState";
 const ExploreItems = () => {
   const [authors, setAuthors] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
-  const [sortOption, setSortOption] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
 
-  async function getAuthors() {
+  const filter = searchParams.get("filter") || "";
+
+  async function getAuthors(filter = "") {
     const { data } = await axios.get(
-      `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore`
+      `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore${
+        filter ? `?filter=${filter}` : ""
+      }`
     );
-      setAuthors(data);
-      setLoading(false);
+    setAuthors(data);
+    setLoading(false);
   }
 
   useEffect(() => {
-    getAuthors();
-  }, []);
-
-  const getSortedAuthors = () => {
-    let sorted = [...authors];
-    if (sortOption === "price_low_to_high") {
-      sorted.sort((a, b) => a.price - b.price);
-    } else if (sortOption === "price_high_to_low") {
-      sorted.sort((a, b) => b.price - a.price);
-    } else if (sortOption === "likes_high_to_low") {
-      sorted.sort((a, b) => b.likes - a.likes);
-    }
-    return sorted;
-  };
+    getAuthors(filter);
+  }, [filter]);
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 4);
   };
 
   const handleSortChange = (e) => {
-    setSortOption(e.target.value);
+    setSearchParams({ filter: e.target.value });
     setVisibleCount(8);
   };
-
-  const sortedAuthors = getSortedAuthors();
 
   return (
     <>
@@ -51,7 +41,7 @@ const ExploreItems = () => {
         <select
           id="filter-items"
           defaultValue=""
-          value={sortOption}
+          value={filter}
           onChange={handleSortChange}
         >
           <option value="">Default</option>
@@ -61,7 +51,7 @@ const ExploreItems = () => {
         </select>
       </div>
       <LoadingState loading={loading} showTitle={false}>
-        {sortedAuthors.slice(0, visibleCount).map((author, index) => (
+        {authors.slice(0, visibleCount).map((author, index) => (
           <div
             key={index}
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
@@ -118,7 +108,7 @@ const ExploreItems = () => {
             </div>
           </div>
         ))}
-        {visibleCount < sortedAuthors.length && (
+        {visibleCount < authors.length && (
           <div className="col-md-12 text-center">
             <button onClick={handleLoadMore} className="btn-main lead">
               Load more

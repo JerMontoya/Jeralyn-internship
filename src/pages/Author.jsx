@@ -15,10 +15,8 @@ const Author = () => {
       const { data } = await axios.get(
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${Id}`
       );
-      setTimeout(() => {
         setAuthorInfo(data);
         setLoading(false);
-      }, 2000);
     }
 
     getAuthorInfo();

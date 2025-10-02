@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./LoadingState.css";
 
-const LoadingState = ({ loading, children, showTitle = false }) => {
+const LoadingState = ({
+  loading,
+  children,
+  showTitle = false,
+  showAuthor = false,
+}) => {
   const fullArray = [1, 2, 3, 4];
   const [visibleItems, setVisibleItems] = useState([fullArray]);
 
@@ -26,6 +31,27 @@ const LoadingState = ({ loading, children, showTitle = false }) => {
           <>
             <div className="skeleton-title"></div>
             <div className="small-border bg-color-2"></div>
+          </>
+        )}
+        {showAuthor && (
+          <>
+            <div className="skeleton skeleton-banner"></div>
+            <div className="col-md-12">
+              <div className="d_profile de-flex">
+                <div className="de-flex-col">
+                  <div className="skeleton skeleton-circle" /> 
+                  <i className="fa fa-check skeleton-check"></i>
+                  <div>
+                    <div className="skeleton skeleton-text name"></div>
+                    <div className="skeleton skeleton-text username"></div>
+                    <div className="skeleton skeleton-text address"></div>
+                  </div>
+                </div>
+                <div className="de-flex-col">
+                  <div className="skeleton skeleton-follow"></div>
+                </div>
+              </div>
+            </div>
           </>
         )}
         <div className="skeleton-tiles-grid">

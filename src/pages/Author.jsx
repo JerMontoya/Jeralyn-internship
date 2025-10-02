@@ -2,19 +2,25 @@ import React, { useEffect, useState } from "react";
 import AuthorItems from "../components/author/AuthorItems";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import LoadingState from "../components/LoadingState";
 
 const Author = () => {
   const { Id } = useParams();
   const [authorInfo, setAuthorInfo] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getAuthorInfo() {
       const { data } = await axios.get(
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${Id}`
       );
-      setAuthorInfo(data);
+      setTimeout(() => {
+        setAuthorInfo(data);
+        setLoading(false);
+      }, 2000);
     }
+
     getAuthorInfo();
   }, [Id]);
 
@@ -30,18 +36,17 @@ const Author = () => {
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
-        {authorInfo && (
-          <>
-            <section
-              id="profile_banner"
-              aria-label="section"
-              className="text-light"
-              data-bgimage="url(images/author_banner.jpg) top"
-              style={{
-                background: `url(${authorInfo.nftCollection?.[0]?.nftImage}) top`,
-              }}
-            ></section>
-
+        <LoadingState loading={loading} showTitle={false} showAuthor={true}>
+          <section
+            id="profile_banner"
+            aria-label="section"
+            className="text-light"
+            data-bgimage="url(images/author_banner.jpg) top"
+            style={{
+              background: `url(${authorInfo?.nftCollection?.[0]?.nftImage}) top`,
+            }}
+          ></section>
+          {authorInfo && (
             <section aria-label="section">
               <div className="container">
                 <div className="row">
@@ -89,8 +94,8 @@ const Author = () => {
                 </div>
               </div>
             </section>
-          </>
-        )}
+          )}
+        </LoadingState>
       </div>
     </div>
   );

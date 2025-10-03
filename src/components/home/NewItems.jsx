@@ -105,7 +105,7 @@ const NewItems = () => {
                         </div>
 
                         <Link to={`/item-details/${newItem.nftId}`}>
-                          <img
+                          <img 
                             src={newItem.nftImage}
                             className="lazy nft__item_preview"
                             alt=""

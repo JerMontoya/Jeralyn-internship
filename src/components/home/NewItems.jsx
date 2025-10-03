@@ -64,7 +64,7 @@ const NewItems = () => {
           {
             <Slider {...settings}>
               {newItems.map((newItem, index) => (
-                <div className="carousel-wrapper">
+                <div data-aos="fade-up" className="carousel-wrapper">
                   <div className="px-2" key={index}>
                     <div className="nft__item">
                       <div className="author_list_pp">

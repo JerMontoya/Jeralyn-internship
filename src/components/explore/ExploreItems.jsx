@@ -37,7 +37,7 @@ const ExploreItems = () => {
 
   return (
     <>
-      <div>
+      <div data-aos="fade-down">
         <select
           id="filter-items"
           defaultValue=""
@@ -53,6 +53,7 @@ const ExploreItems = () => {
       <LoadingState loading={loading} showTitle={false}>
         {authors.slice(0, visibleCount).map((author, index) => (
           <div
+            data-aos="fade-down"
             key={index}
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
             style={{ display: "block", backgroundSize: "cover" }}

@@ -14,11 +14,8 @@ const ItemDetails = () => {
       const { data } = await axios.get(
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${Id}`
       );
-      setTimeout(() => {
-
-        setDetails(data);
-        setLoading(false);
-      }, 2000);
+      setDetails(data);
+      setLoading(false);
     }
     getDetails();
   }, [Id]);
@@ -58,8 +55,7 @@ const ItemDetails = () => {
             </div>
           </div>
         ) : (
-
-          (details && (
+          details && (
             <section aria-label="section" className="mt90 sm-mt-0">
               <div className="container">
                 <div className="row">
@@ -106,7 +102,9 @@ const ItemDetails = () => {
                               </Link>
                             </div>
                             <div className="author_list_info">
-                              <Link to={`/author/${details.ownerId}`}>{details.ownerName}</Link>
+                              <Link to={`/author/${details.ownerId}`}>
+                                {details.ownerName}
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -127,7 +125,9 @@ const ItemDetails = () => {
                               </Link>
                             </div>
                             <div className="author_list_info">
-                              <Link to={`/author/${details.creatorId}`}>{details.creatorName}</Link>
+                              <Link to={`/author/${details.creatorId}`}>
+                                {details.creatorName}
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -143,9 +143,8 @@ const ItemDetails = () => {
                 </div>
               </div>
             </section>
-          ))
+          )
         )}
-
       </div>
     </div>
   );
